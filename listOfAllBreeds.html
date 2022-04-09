@@ -5,41 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        Document
+        List of all Breeds
     </title>
     <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
     rel="stylesheet"
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
     crossorigin="anonymous"/>
+    <link rel="stylesheet" href="listOfAllBreeds.css"/>
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"
     ></script>
-    <style>
-        nav {
-            background-color: #333333;   
-        }
-
-        li {
-            display: inline;
-            float:left;
-            text-align: center;
-            padding: 5px;
-            color:black;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size:20px;
-        }
-
-        .nav-link{
-            color:white;
-
-        }
-        a{
-            text-decoration: none;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -72,20 +50,21 @@
     </h1>
 
     <div>
-      <form method="get" action="">
-          Looking for a specific breed? 
-          <button type="submit" name="random dog search"><a href="./breedImage.html">
-              Click Here
+        <form method="get" action="">
+            Looking for a specific breed? 
+            <button type="submit" name="random dog search"><a href="./breedImage.html">
+                Click Here
             </a></button>
-      </form>
+        </form>
+    </div>
   
-  <div class="slider">
-      <span id="slide-1"></span>
-      <span id="slide-2"></span>
-      <span id="slide-3"></span>
-      <div class="image-container" id="outputListOfAllBreeds">
-      </figure>
-  </div>
+    <div class="slider">
+        <span id="slide-1"></span>
+        <span id="slide-2"></span>
+        <span id="slide-3"></span>
+        <div class="image-container" id="outputListOfAllBreeds">
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="./scriptListOfAllBreeds.js"></script>

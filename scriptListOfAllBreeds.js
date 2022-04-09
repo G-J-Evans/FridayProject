@@ -1,51 +1,78 @@
-'use strict'
+"use strict"
 
-import * as DOM from './domListOfAllBreeds.js'
+import * as DOM from "./domListOfAllBreeds.js"
 
-const listDogs = async () => {
-    await axios.get(`https://dog.ceo/api/breeds/list/all`)
-    .then(response => {
-        for (let breed of Object.keys(response.data.message)) {
-            console.log(breed);
-        childToContainer(breedToFigure(JSON.stringify(breed)));
-        }
-      }).catch((err) => {
-        console.log(err);
-      });
+// gets list of dogs
+async function getListDogs() {
+    try {
+        const listDogs = await axios.get(`https://dog.ceo/api/breeds/list/all`);
+        console.log(listDogs);
+        return listDogs.data.message;
+    } catch (err) {
+        console.error(err);
+    }
+    
 }
 
-const nameToImage = async (breedName) => {
-    await axios.get(`https://dog.ceo/api/breed/${breedName.slice(1,-1)}/images/random`)
-        .then(response => {
-        console.log(response.data.message);
-        return response.data.message;
-        }).catch((err) => {
-        console.log(err);
+// gets an image link of a specific breed
+async function getBreedImage(breedName) {
+    try {
+        const breedImage = await axios.get(`https://dog.ceo/api/breed/${breedName.slice(1,-1)}/images/random`);
+        return breedImage.data.message;
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+// main function for printing list of dogs 
+async function listDogs() {
+    const listDogs = await getListDogs();
+    console.log(listDogs);
+
+    const breeds = Object.keys(listDogs)
+    console.log(breeds);
+
+    const promises = breeds.map((name) => {
+        let breed = getBreedImage(JSON.stringify(name)).then((image) => {
+            return {name, image};
+        });
+        return breed;
     });
+
+    const breedsWithImages = await Promise.all(promises);
+    console.log(breedsWithImages);
+
+    for (let breed of breedsWithImages) {
+        childToContainer(toFigureContainer(breed));
+    }
 }
 
-const breedToFigure = (breed) => {
+// returns element inside <figure><figure/>
+const toFigureContainer = (element) => {
     const figureContainer = document.createElement(`figure`);
-    figureContainer.appendChild(imageToContainer(nameToImage(breed)));
-    figureContainer.appendChild(breedNameToContainer(breed));
+    figureContainer.appendChild(toImgContainer(element.image));
+    figureContainer.appendChild(toFigCaptureContainer(element.name));
     return figureContainer;
 }
 
-const imageToContainer = image => {
-    console.log(image);
+// returns image inside <img/> with class.
+const toImgContainer = image => {
     const imageContainer = document.createElement(`img`);
-    imageContainer.width = "128";
-    imageContainer.height= "128";
     imageContainer.src = image;
+    imageContainer.class = "dogListImg";
+    imageContainer.width = "250";
+    imageContainer.height = "250";
     return imageContainer;
 }
 
-const breedNameToContainer = breed => {
-    const breedNameContainer = document.createElement(`figcaption`);
-    breedNameContainer.innerHTML = `${breed}`;
-    return breedNameContainer;
+// returns element inside <figcaption><figcaption/>
+const toFigCaptureContainer = element => {
+    const figCaptionContainer = document.createElement(`figcaption`);
+    figCaptionContainer.innerHTML = `${element}`;
+    return figCaptionContainer;
 }
 
+// Adds a child to the output space
 const childToContainer = child => {
     DOM.outputListOfAllBreeds.appendChild(child);
 }
