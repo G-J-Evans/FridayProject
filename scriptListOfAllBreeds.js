@@ -59,16 +59,16 @@ const toFigureContainer = (element) => {
 const toImgContainer = image => {
     const imageContainer = document.createElement(`img`);
     imageContainer.src = image;
-    imageContainer.class = "dogListImg";
-    imageContainer.width = "250";
-    imageContainer.height = "250";
+    imageContainer.classList.add("dogBox");
+    imageContainer.height = 250;
+    imageContainer.width = 250;
     return imageContainer;
 }
 
 // returns element inside <figcaption><figcaption/>
 const toFigCaptureContainer = element => {
     const figCaptionContainer = document.createElement(`figcaption`);
-    figCaptionContainer.innerHTML = `${element}`;
+    figCaptionContainer.textContent = `${element}`;
     return figCaptionContainer;
 }
 
@@ -78,3 +78,6 @@ const childToContainer = child => {
 }
 
 listDogs();
+DOM.buttonRefresh.onclick = () => {
+    listDogs();
+}
