@@ -19,7 +19,7 @@ li {
 a{
     text-decoration: none;
 }
-.dogBox {
-    width : 250;
-    height : 250;
-}
+/* .dogBox{
+    max-width:250;
+    height:auto;
+} */

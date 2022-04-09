@@ -15,7 +15,7 @@ async function getListDogs() {
 }
 
 // gets an image link of a specific breed
-async function getBreedImage(breedName) {
+async function getRandomBreedImage(breedName) {
     try {
         const breedImage = await axios.get(`https://dog.ceo/api/breed/${breedName.slice(1,-1)}/images/random`);
         return breedImage.data.message;
@@ -33,7 +33,7 @@ async function listDogs() {
     console.log(breeds);
 
     const promises = breeds.map((name) => {
-        let breed = getBreedImage(JSON.stringify(name)).then((image) => {
+        let breed = getRandomBreedImage(JSON.stringify(name)).then((image) => {
             return {name, image};
         });
         return breed;
@@ -52,10 +52,11 @@ const toFigureContainer = (element) => {
     const figureContainer = document.createElement(`figure`);
     figureContainer.appendChild(toImgContainer(element.image));
     figureContainer.appendChild(toFigCaptureContainer(element.name));
+    // figureContainer.classList.add("dogBox");
     return figureContainer;
 }
 
-// returns image inside <img/> with class.
+// returns image inside <img/> with attributes
 const toImgContainer = image => {
     const imageContainer = document.createElement(`img`);
     imageContainer.src = image;
@@ -77,7 +78,8 @@ const childToContainer = child => {
     DOM.outputListOfAllBreeds.appendChild(child);
 }
 
+// on pageload
 listDogs();
-DOM.buttonRefresh.onclick = () => {
-    listDogs();
-}
+
+// interaction
+DOM.buttonRefresh.onclick = () => listDogs();
