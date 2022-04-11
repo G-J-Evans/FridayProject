@@ -24,38 +24,6 @@ async function getRandomBreedImage(breedName) {
     }
 }
 
-// main function for printing list of dogs 
-async function listDogs() {
-    const listDogs = await getListDogs();
-    console.log(listDogs);
-
-    const breeds = Object.keys(listDogs)
-    console.log(breeds);
-
-    const promises = breeds.map((name) => {
-        let breed = getRandomBreedImage(JSON.stringify(name)).then((image) => {
-            return {name, image};
-        });
-        return breed;
-    });
-
-    const breedsWithImages = await Promise.all(promises);
-    console.log(breedsWithImages);
-
-    for (let breed of breedsWithImages) {
-        childToContainer(toFigureContainer(breed));
-    }
-}
-
-// returns element inside <figure><figure/>
-const toFigureContainer = (element) => {
-    const figureContainer = document.createElement(`figure`);
-    figureContainer.appendChild(toImgContainer(element.image));
-    figureContainer.appendChild(toFigCaptureContainer(element.name));
-    // figureContainer.classList.add("dogBox");
-    return figureContainer;
-}
-
 // returns image inside <img/> with attributes
 const toImgContainer = image => {
     const imageContainer = document.createElement(`img`);
@@ -73,13 +41,46 @@ const toFigCaptureContainer = element => {
     return figCaptionContainer;
 }
 
+// returns element inside <figure><figure/> that has a .name and .image
+const toFigureContainer = (element) => {
+    const figureContainer = document.createElement(`figure`);
+    figureContainer.appendChild(toImgContainer(element.image));
+    figureContainer.appendChild(toFigCaptureContainer(element.name));
+    return figureContainer;
+}
+
 // Adds a child to the output space
-const childToContainer = child => {
+const childToOutput = child => {
     DOM.outputListOfAllBreeds.appendChild(child);
+}
+
+// main function for printing list of dogs 
+async function listDogs() {
+    // gets list of breeds stored as keys
+    const listDogs = await getListDogs();
+
+    // turns keys to Array
+    const breeds = Object.keys(listDogs)
+
+    // gets random breed images for each breed
+    const promises = breeds.map((name) => {
+        let breedWithImage = getRandomBreedImage(JSON.stringify(name)).then((image) => {
+            return {name, image};
+        });
+        return breedWithImage;
+    });
+
+    // actions the promises
+    const breedsWithImages = await Promise.all(promises);
+
+    // adds the breed+img to output
+    for (let breedWithImage of breedsWithImages) {
+        childToOutput(toFigureContainer(breedWithImage));
+    }
 }
 
 // on pageload
 listDogs();
 
-// interaction
+// interaction  
 DOM.buttonRefresh.onclick = () => listDogs();
