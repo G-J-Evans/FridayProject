@@ -64,9 +64,11 @@ async function listDogs() {
 
     // gets random breed images for each breed
     const promises = breeds.map((name) => {
-        let breedWithImage = getRandomBreedImage(JSON.stringify(name)).then((image) => {
-            return {name, image};
-        });
+        let breedWithImage = getRandomBreedImage(
+            JSON.stringify(name)).then((image) => {
+                return {name, image};
+            }
+        );
         return breedWithImage;
     });
 
